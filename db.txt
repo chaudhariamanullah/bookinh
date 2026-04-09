@@ -1,0 +1,27 @@
+CREATE DATABASE booking_service;
+
+CREATE TABLE booking(
+    booking_id INT PRIMARY KEY AUTO_INCREMENT,
+    booking_public_id CHAR(40) NOT NULL UNIQUE,
+    user_public_id VARCHAR(40) NOT NULL,
+    order_id VARCHAR(50) NOT NULL,
+    seat_public_id CHAR(40) NOT NULL,
+    showtime_public_id CHAR(36) NOT NULL,
+    amount INT NOT NULL,
+    seat_name VARCHAR(10),
+    booking_status ENUM('pending','cancelled','completed','failed') NOT NULL DEFAULT 'pending',
+    booking_expiry_at DATETIME NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+);
+
+CREATE USER 'booking_app'@'localhost'
+IDENTIFIED BY '9825690996';
+
+GRANT SELECT, INSERT, UPDATE, DELETE
+ON booking_service.*
+TO 'booking_app'@'localhost';
+
+FLUSH PRIVILEGES;
+
+SHOW GRANTS FOR 'booking_app'@'localhost';
